@@ -29,6 +29,15 @@ class Server():
         self.socket.close()
 
 
+def parsed_headers(headers):
+    query = {}
+    for h in headers:
+        k, v = h.split(': ', 1)
+        query[k] = v
+    # log('query', query)
+    return query
+
+
 """
 GET / HTTP/1.1
 Host: 127.0.0.1:8080
@@ -44,6 +53,7 @@ def parsed_request(request):
     method = request.split()
     headers = request.split('\r\n\r\n', 1)[0].split('\r\n')[1:]
     body = request.split('\r\n\r\n', 1)[1]
+    query = parsed_headers(headers)
 
     log(headers)
 
@@ -51,16 +61,14 @@ def run(host='', port=3000, debug=False):
     log('runing server...')
     s = Server(host, port)
 
-    try:
-        while True:
-            # 接收一个连接
-            connection, addr = s.accept()
-            data = connection.recv(1024)
-            data = data.decode('utf-8')
-            parsed_request(data)
-    except Exception as e:
-        log('error main', e)
-        s.close()
+    while True:
+        # 接收一个连接
+        connection, addr = s.accept()
+        data = connection.recv(1024)
+        data = data.decode('utf-8')
+        parsed_request(data)
+
+    s.close()
 
 if __name__ == '__main__':
     config = dict(
