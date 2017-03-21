@@ -1,3 +1,4 @@
+# coding: utf-8
 
 import socket
 from util import log
@@ -5,7 +6,6 @@ from util import log
 
 port = 8081
 host = ''   # '' 代表接收任意 ip
-
 
 class Server():
     """
@@ -15,6 +15,7 @@ class Server():
         try:
             addr = (host, port)
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             self.socket.bind(addr)
             self.socket.listen(5)
         except Exception as e:
@@ -46,21 +47,20 @@ def parsed_request(request):
 
     log(headers)
 
-
-
 def run(host='', port=3000, debug=False):
+    log('runing server...')
     s = Server(host, port)
 
-    while True:
-        # 接收一个连接
-        connection, addr = s.accept()
-        data = connection.recv(1024)
-        data = data.decode('utf-8')
-        parsed_request(data)
-        break
-
-    s.close()
-
+    try:
+        while True:
+            # 接收一个连接
+            connection, addr = s.accept()
+            data = connection.recv(1024)
+            data = data.decode('utf-8')
+            parsed_request(data)
+    except Exception as e:
+        log('error main', e)
+        s.close()
 
 if __name__ == '__main__':
     config = dict(

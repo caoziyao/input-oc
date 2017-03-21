@@ -5,10 +5,12 @@ __author__ = 'caosiyao'
 # 利用watchdog接收文件变化的通知，如果是.py文件，就自动重启wsgiapp.py进程。
 # 利用Python自带的subprocess实现进程的启动和终止，并把输入输出重定向到当前进程的输入输出中
 
+import signal
 import os, sys, time, subprocess
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
+cmd = ['python3', 'main.py']
 
 def log(*args, **kwargs):
     print('[Monitor]', *args, **kwargs)
@@ -25,13 +27,21 @@ class Handle(FileSystemEventHandler):
             log('Python source file changed: {}'.format(event.src_path))
             self.restart()
 
-
 def kill_process():
-    pass
+    global process
+    if process:
+        log('Kill process [{}]...'.format(process.pid))
+        process.kill()
+        # os.killpg(os.getpgid(process.pid), signal.SIGTERM)  # Send the signal to all the process groups
+        process.wait()
+        log('Process ended with code {}.'.format(process.returncode))
+        process = None
+
+
 
 def start_process():
-    pass
-
+    global process
+    process = subprocess.Popen(cmd, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
 
 # 当有文件改动时，就会执行该函数
 def restart_process():
@@ -45,6 +55,7 @@ def start_watch(path, callback):
     observer.schedule(Handle(restart_process), path, recursive=True)
     observer.start()
     log('Watching director {}...'.format(path))
+    start_process()
     try:
         while True:
             time.sleep(0.5)
