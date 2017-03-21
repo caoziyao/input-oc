@@ -5,7 +5,7 @@ Desktop.ini
 
 
 # Python
-.idea
+.idea/
 *.py[cod]
 *.so
 *.egg
