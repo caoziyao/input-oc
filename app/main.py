@@ -1,16 +1,20 @@
 # coding: utf-8
 
 import socket
-from util import log
 import _thread
+from util import log
+from models.request import Request
+from route.todo import route_todo
 
 port = 8081
-host = ''   # '' 代表接收任意 ip
+host = ''  # '' 代表接收任意 ip
+
 
 class Server():
     """
     服务端
     """
+
     def __init__(self, host='', port=5000):
         try:
             addr = (host, port)
@@ -29,40 +33,56 @@ class Server():
         self.socket.close()
 
 
+def response_for_path(path, request):
+    """根据 path 回应客户端"""
+    r = {}
+    r.update(route_todo)
+    """
+    根据 path 调用相应的处理函数
+    没有处理的 path 会返回 404
+    """
+    response = r.get(path, 404)
+    return response(request)
+
+
 def parsed_headers(headers):
+    """ 解析 headers """
     query = {}
     for h in headers:
         k, v = h.split(': ', 1)
         query[k] = v
-    # log('query', query)
     return query
 
 
-"""
-GET / HTTP/1.1
-Host: 127.0.0.1:8080
-Connection: keep-alive
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.98 Safari/537.36
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
-Accept-Encoding: gzip, deflate, sdch, br
-Accept-Language: zh-CN,zh;q=0.8
+def parsed_request(r):
+    """第一步解析整个请求
+    返回 method header body
+    """
+    request = Request()
+    request.method = r.split()[0]
+    request.url = r.split()[1]
+    request.protocol = r.split()[2]
+    headers = r.split('\r\n\r\n', 1)[0].split('\r\n')[1:]
+    request.body = r.split('\r\n\r\n', 1)[1]
+    request.headers = parsed_headers(headers)
 
-"""
-def parsed_request(request):
-    method = request.split()
-    headers = request.split('\r\n\r\n', 1)[0].split('\r\n')[1:]
-    body = request.split('\r\n\r\n', 1)[1]
-    query = parsed_headers(headers)
-
-    log(headers)
+    return request
 
 
 def process_request(connection):
     """ 接收处理数据线程"""
-    data = connection.recv(1024)
-    data = data.decode('utf-8')
-    parsed_request(data)
+    r = connection.recv(1024)
+    r = r.decode('utf-8')
+    # 因为 chrome 会发送空请求导致 split 得到空 list
+    # 所以这里判断一下防止程序崩溃
+    if len(r.split()) < 2:
+        connection.close()
+        return
+
+    request = parsed_request(r)
+    response = response_for_path(request.url, request)
+    connection.sendall(response.encode('utf-8'))
+
     connection.close()
 
 
@@ -79,15 +99,22 @@ def run(host='', port=3000, debug=False):
         _thread.start_new_thread(process_request, (connection,))
 
 
-
-    # s.close()
-
 if __name__ == '__main__':
     config = dict(
-        host= '',
-        port= 3000,
-        debug = True,
+        host='',
+        port=3000,
+        debug=True,
     )
     run(**config)
 
+"""
+GET / HTTP/1.1
+Host: 127.0.0.1:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.98 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding: gzip, deflate, sdch, br
+Accept-Language: zh-CN,zh;q=0.8
 
+"""
