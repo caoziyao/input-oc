@@ -2,7 +2,7 @@
 
 import socket
 from util import log
-
+import _thread
 
 port = 8081
 host = ''   # '' 代表接收任意 ip
@@ -57,18 +57,30 @@ def parsed_request(request):
 
     log(headers)
 
-def run(host='', port=3000, debug=False):
-    log('runing server...')
-    s = Server(host, port)
 
+def process_request(connection):
+    """ 接收处理数据线程"""
+    data = connection.recv(1024)
+    data = data.decode('utf-8')
+    parsed_request(data)
+    connection.close()
+
+
+def run(host='', port=3000, debug=False):
+    """
+    启动服务器
+    """
+    s = Server(host, port)
     while True:
         # 接收一个连接
         connection, addr = s.accept()
-        data = connection.recv(1024)
-        data = data.decode('utf-8')
-        parsed_request(data)
+        # 开一个新的线程来处理请求, 第二个参数是传给新函数的参数列表, 必须是 tuple
+        # tuple 如果只有一个值 必须带逗号
+        _thread.start_new_thread(process_request, (connection,))
 
-    s.close()
+
+
+    # s.close()
 
 if __name__ == '__main__':
     config = dict(
