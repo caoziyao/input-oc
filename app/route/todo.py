@@ -1,10 +1,13 @@
 
+from util import http_response
+from util import tempalte
 
 def todo(request):
-    html = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n'
-    body = '<h1>hello bbq</h1>'
+    """todo 主页面"""
+    body = tempalte('todo.html', user='root')
 
-    return html + '\r\n' + body
+    return http_response(body)
+
 
 route_todo = {
     '/todo': todo

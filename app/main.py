@@ -9,7 +9,6 @@ from route.todo import route_todo
 port = 8081
 host = ''  # '' 代表接收任意 ip
 
-
 class Server():
     """
     服务端
@@ -66,6 +65,7 @@ def parsed_request(r):
     request.body = r.split('\r\n\r\n', 1)[1]
     request.headers = parsed_headers(headers)
 
+    log('request 请求:\r\n{}'.format(r))
     return request
 
 
@@ -81,7 +81,7 @@ def process_request(connection):
 
     request = parsed_request(r)
     response = response_for_path(request.url, request)
-    connection.sendall(response.encode('utf-8'))
+    connection.sendall(response.encode(encoding='utf-8'))
 
     connection.close()
 
@@ -94,6 +94,7 @@ def run(host='', port=3000, debug=False):
     while True:
         # 接收一个连接
         connection, addr = s.accept()
+        log('connection from {}'.format(addr))
         # 开一个新的线程来处理请求, 第二个参数是传给新函数的参数列表, 必须是 tuple
         # tuple 如果只有一个值 必须带逗号
         _thread.start_new_thread(process_request, (connection,))
