@@ -7,17 +7,22 @@ def route_static(request):
     """
     filename = request.query.get('file', '')
     path = 'static/' + filename
-    with open(path, 'r') as f:
+    with open(path, 'r', encoding='utf-8') as f:
         content = f.read()
         return http_response(content)
 
 
-
 def index(request):
     body = tempalte('index.html')
+    return http_response(body)
 
+
+def search(request):
+    print('python search')
+    body = json.dumps({'i': 'j'})
     return http_response(body)
 
 route_zhihu = {
-    '/zhihu': index
+    '/zhihu': index,
+    '/api/zhihu/search': search,
 }
