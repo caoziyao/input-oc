@@ -1,6 +1,5 @@
 
-from util import http_response
-from util import tempalte
+from . import *
 
 def todo(request):
     """todo 主页面"""

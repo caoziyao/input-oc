@@ -29,11 +29,15 @@ def tempalte(path, **kwargs):
     return t.render(**kwargs)
 
 
-
 def http_response(body, headers=None):
     """
     headers 是可选的字典格式的 HTTP 头
     """
     header = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n'
-
     return header + '\r\n' + body
+
+def error(code=404):
+    body = tempalte('404.html')
+    return http_response(body)
+
+

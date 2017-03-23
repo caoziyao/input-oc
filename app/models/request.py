@@ -6,8 +6,10 @@ class Request():
     """
     def __init__(self):
         self.method = ''
-        self.url = ''
+        self.url = ''       # /static?file=zhihu.js
         self.protocol = ''
         self.headers = {}
         self.body = ''
+        self.path = ''      # /static
+        self.query = {}     # {file: zhihu.js}
 

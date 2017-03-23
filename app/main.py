@@ -2,9 +2,10 @@
 
 import socket
 import _thread
-from util import log
+from util import log, error
 from models.request import Request
 from route.todo import route_todo
+from route.zhihu import route_zhihu, route_static
 
 port = 8081
 host = ''  # '' 代表接收任意 ip
@@ -32,15 +33,20 @@ class Server():
         self.socket.close()
 
 
+
 def response_for_path(path, request):
     """根据 path 回应客户端"""
-    r = {}
+    # static?file=zhihu.js
+    r = {
+        '/static': route_static,
+    }
     r.update(route_todo)
+    r.update(route_zhihu)
     """
     根据 path 调用相应的处理函数
     没有处理的 path 会返回 404
     """
-    response = r.get(path, 404)
+    response = r.get(path, error)
     return response(request)
 
 
@@ -51,6 +57,27 @@ def parsed_headers(headers):
         k, v = h.split(': ', 1)
         query[k] = v
     return query
+
+
+def parsed_url(url):
+    # /static?file=zhihu.js&author=gua
+    """
+    {
+        'file': 'zhihu.js',
+        'author': 'gua'
+    }
+    """
+    index = url.find('?')
+    if index == -1:
+        return url, {}
+    else:
+        path, query_string = url.split('?')
+        args = query_string.split('&')
+        query = {}
+        for arg in args:
+            k, v = arg.split('=')
+            query[k] = v
+        return path, query
 
 
 def parsed_request(r):
@@ -64,6 +91,8 @@ def parsed_request(r):
     headers = r.split('\r\n\r\n', 1)[0].split('\r\n')[1:]
     request.body = r.split('\r\n\r\n', 1)[1]
     request.headers = parsed_headers(headers)
+
+    request.path, request.query = parsed_url(request.url)
 
     log('request 请求:\r\n{}'.format(r))
     return request
@@ -80,13 +109,13 @@ def process_request(connection):
         return
 
     request = parsed_request(r)
-    response = response_for_path(request.url, request)
+    response = response_for_path(request.path, request)
     connection.sendall(response.encode(encoding='utf-8'))
 
     connection.close()
 
 
-def run(host='', port=3000, debug=False):
+def run(host='', port=3001, debug=False):
     """
     启动服务器
     """
