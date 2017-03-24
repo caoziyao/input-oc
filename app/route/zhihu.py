@@ -1,5 +1,7 @@
 
 from . import *
+import requests
+import lib.yrequests as yrequests
 
 def route_static(request):
     """
@@ -22,7 +24,20 @@ def search(request):
     body = json.dumps({'i': 'j'})
     return http_response(body)
 
+
+def weather(request):
+    url = 'https://free-api.heweather.com/v5/weather?city=北京&key=79edc4edd72c4d89a70cd117483fa451'
+
+    yrequests.request(url)
+
+    # r = requests.get(url)
+
+    # print('text', r.text)
+    body = tempalte('index.html')
+    return http_response(body)
+
 route_zhihu = {
     '/zhihu': index,
     '/api/zhihu/search': search,
+    '/weather': weather,
 }

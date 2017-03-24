@@ -1,5 +1,6 @@
 # coding: utf-8
 
+
 class Request():
     """
     原始 http 请求
@@ -12,4 +13,9 @@ class Request():
         self.body = ''
         self.path = ''      # /static
         self.query = {}     # {file: zhihu.js}
+
+
+
+
+
 

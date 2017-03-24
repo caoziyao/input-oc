@@ -9,7 +9,9 @@ var bindEventSearch = function () {
 
     // 回调函数
     var search = function(d) {
-        log('search', d)
+        log('search', d);
+
+
     };
 
     // 搜索按钮绑定事件
