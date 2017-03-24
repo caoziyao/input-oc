@@ -94,10 +94,7 @@ def parsed_response(r):
 
 
 # 复杂的逻辑全部封装成函数
-def get(url):
-    """
-    用 GET 请求 url 并返回响应
-    """
+def request(method, url, **kwargs):
     protocol, host, port, path = parsed_url(url)
     # 写 what 不写 how
     s = socket_by_protocol(protocol)
@@ -115,12 +112,15 @@ def get(url):
     if status_code in [301, 302]:
         url = headers['Location']
         return get(url)
-    return status_code, headers, body
+
+    s.close()
+    # return status_code, headers, body
+    return body
 
 
+def get(url, params=None, **kwargs):
+    """Sends a GET request.
+    """
+    return request('get', url, params=params, **kwargs)
 
-def request(url):
 
-    status_code, headers, body = get(url)
-
-    print('body', body)
