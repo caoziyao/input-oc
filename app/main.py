@@ -6,6 +6,7 @@ from util import log, error
 from models.request import Request
 from route.todo import route_todo
 from route.zhihu import route_zhihu, route_static
+from route.api.weather import route_api
 
 port = 8081
 host = ''  # '' 代表接收任意 ip
@@ -41,6 +42,7 @@ def response_for_path(path, request):
         '/static': route_static,
     }
     r.update(route_todo)
+    r.update(route_api)
     r.update(route_zhihu)
     """
     根据 path 调用相应的处理函数
@@ -94,7 +96,7 @@ def parsed_request(r):
 
     request.path, request.query = parsed_url(request.url)
 
-    log('request 请求:\r\n{}'.format(r))
+    # log('request 请求:\r\n{}'.format(r))
     return request
 
 
@@ -112,7 +114,9 @@ def process_request(connection):
     response = response_for_path(request.path, request)
     connection.sendall(response.encode(encoding='utf-8'))
 
+    # print(response.encode(encoding='utf-8'))
     connection.close()
+
 
 
 def run(host='', port=3001, debug=False):

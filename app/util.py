@@ -1,15 +1,15 @@
-
 import time, os, json
 import datetime
 from jinja2 import Environment, FileSystemLoader
+
 
 def log(*args, **kwargs):
     """log 日志"""
     dt = datetime.datetime.now()
     path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'log', 'log.txt'))
     with open(path, 'a', encoding='utf-8') as f:
+        print(dt, *args, **kwargs)
         print(dt, *args, file=f, **kwargs)
-
 
 
 def json_save(path, data):
@@ -53,8 +53,7 @@ def http_response(body, headers=None):
     header = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n'
     return header + '\r\n' + body
 
+
 def error(code=404):
     body = tempalte('404.html')
     return http_response(body)
-
-

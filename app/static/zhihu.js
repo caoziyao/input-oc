@@ -8,15 +8,13 @@ var bindEventSearch = function () {
     var btnSearch = e('#id-button-search');
 
     // 回调函数
-    var search = function(d) {
-        log('search', d);
-
-
+    var callback = function(d) {
+        // log('search', d);
     };
 
     // 搜索按钮绑定事件
     btnSearch.addEventListener('click', function () {
-        apiZhihuSearch(search)
+        apiZhihuSearch(callback)
     })
 
 };

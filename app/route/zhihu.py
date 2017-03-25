@@ -1,7 +1,6 @@
-
 from . import *
-import requests
 import lib.yrequests as yrequests
+
 
 def route_static(request):
     """
@@ -25,25 +24,45 @@ def search(request):
     return http_response(body)
 
 
-def weather(request):
-    url = 'https://free-api.heweather.com/v5/weather?city=深圳&key=79edc4edd72c4d89a70cd117483fa451'
+def login(request):
+    """用户登录
+    """
 
-    res = yrequests.get(url)
-    w = json.loads(res)
+    response = tempalte('login.html')
+    return http_response(response)
 
-    data = {
-        'basic': w.get('HeWeather5')[0].get('basic'),
-        'now': w.get('HeWeather5')[0].get('now'),
-        'daily_forecast': w.get('HeWeather5')[0].get('daily_forecast')[0],
-        'hourly_forecast': w.get('HeWeather5')[0].get('hourly_forecast')[0]
-    }
 
-    # print('text', r.text)
-    body = tempalte('index.html', weather=data)
-    return http_response(body)
+def ajaxlogin(request):
+    """ ajax 请求"""
+    headers = {'Content-Type', 'application/json'}
+
+    try:
+        data = json.loads(request.body)
+        username = data.get('username', '')
+        password = data.get('password', '')
+        if len(username) < 3 or len(password) < 3:
+            raise Assistant(msg='用户名或密码至少3位')
+        r = {
+            'status': 1,
+            'msg': 'welcome 登录成功!'
+        }
+        body = json.dumps(r)
+        return http_response(body)
+    except Assistant as e:
+        body = json.dumps(e.__dict__)
+        return http_response(body, headers)
+    except Exception as e:
+        r = {
+            'suatus': 0,
+            'msg': ' 接口错误'
+        }
+        body = json.dumps(r)
+        return http_response(body)
+
 
 route_zhihu = {
     '/zhihu': index,
     '/api/zhihu/search': search,
-    '/weather': weather,
+    '/login': login,
+    '/ajax/login': ajaxlogin,
 }

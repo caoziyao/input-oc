@@ -13,6 +13,7 @@ var ajax = function (method, path, data, responseCallback) {
     // 设置发送的数据的格式为 application/json
     // 这个不是必须的
     r.setRequestHeader('Content-Type', 'application/json');
+    // r.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
     // 注册响应函数
     r.onreadystatechange = function() {
         if(r.readyState === 4) {
@@ -31,4 +32,10 @@ var ajax = function (method, path, data, responseCallback) {
 var apiZhihuSearch = function(callback) {
     var path = '/api/zhihu/search';
     ajax('GET', path, '', callback)
+};
+
+// login API
+var apiLogin = function (data, callback) {
+    var path = '/ajax/login';
+    ajax('POST', path, data, callback)
 };
