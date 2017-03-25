@@ -39,3 +39,9 @@ var apiLogin = function (data, callback) {
     var path = '/ajax/login';
     ajax('POST', path, data, callback)
 };
+
+// login API
+var apiRegister = function (data, callback) {
+    var path = '/ajax/register';
+    ajax('POST', path, data, callback)
+};

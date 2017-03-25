@@ -5,29 +5,36 @@
     <title>login</title>
 </head>
 <body>
-    <input id="id-input-username" placeholder="用户名">
-    <input id="id-input-password" placeholder="密码">
+    <input id="id-login-username" placeholder="用户名">
+    <input id="id-login-password" placeholder="密码">
     <button id="id-btn-login">登录</button>
+
+    <br>
+    <input id="id-reg-username" placeholder="用户名">
+    <input id="id-reg-password" placeholder="密码">
+    <button id="id-btn-register">注册</button>
 </body>
 
     <script src="/static?file=base.js"></script>
     <script src="/static?file=api.js"></script>
     <script>
         var btnLogin = e('#id-btn-login');
-        // 回调函数
-        var callback = function (d) {
-            data = JSON.parse(d);
-            log('callback', data)
-            if(data.status){
-                alert('登录成功')
-            }else{
-                alert('登录失败 ' + data.message)
-            }
-        };
+        var btnRegister = e('#id-btn-register')
 
         btnLogin.addEventListener('click', function(){
-            var username = e('#id-input-username').value;
-            var password = e('#id-input-password').value;
+            var username = e('#id-login-username').value;
+            var password = e('#id-login-password').value;
+
+            // 回调函数
+            var callback = function (d) {
+                data = JSON.parse(d);
+                log('callback', data)
+                if(data.status){
+                    alert('登录成功')
+                }else{
+                    alert('登录失败 ' + data.message)
+                }
+            };
 
             var data = {
                 'username': username,
@@ -35,6 +42,29 @@
             };
 
             apiLogin(data, callback);
+        })
+
+        btnRegister.addEventListener('click', function () {
+            var username = e('#id-reg-username').value;
+            var password = e('#id-reg-password').value;
+
+            // 回调函数
+            var callback = function (d) {
+                data = JSON.parse(d);
+                log('callback', data)
+                if(data.status){
+                    alert('注册成功')
+                }else{
+                    alert('注册失败 ' + data.message)
+                }
+            };
+
+            var data = {
+                'username': username,
+                'password': password
+            };
+
+            apiRegister(data, callback);
         })
     </script>
 

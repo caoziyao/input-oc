@@ -33,7 +33,7 @@ def login(request):
 
 
 def ajaxlogin(request):
-    """ ajax 请求"""
+    """ ajax 登录"""
     headers = {'Content-Type', 'application/json'}
 
     try:
@@ -60,9 +60,40 @@ def ajaxlogin(request):
         return http_response(body)
 
 
+def ajaxregister(request):
+    """ ajax 注册"""
+    headers = {'Content-Type', 'application/json'}
+
+    try:
+        data = json.loads(request.body)
+        username = data.get('username', '')
+        password = data.get('password', '')
+        if len(username) < 3 or len(password) < 3:
+            raise Assistant(msg='用户名或密码至少3位')
+        r = {
+            'status': 1,
+            'msg': 'welcome 注册成功!'
+        }
+        body = json.dumps(r)
+        return http_response(body)
+    except Assistant as e:
+        body = json.dumps(e.__dict__)
+        return http_response(body, headers)
+    except Exception as e:
+        r = {
+            'suatus': 0,
+            'msg': ' 接口错误'
+        }
+        body = json.dumps(r)
+        return http_response(body)
+
+
+
+
 route_zhihu = {
     '/zhihu': index,
     '/api/zhihu/search': search,
     '/login': login,
     '/ajax/login': ajaxlogin,
+    '/ajax/register': ajaxregister,
 }
