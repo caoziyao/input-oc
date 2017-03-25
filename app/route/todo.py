@@ -1,5 +1,7 @@
 
 from . import *
+from .login import User
+
 
 def todo(request):
     """todo 主页面"""

@@ -1,5 +1,6 @@
 
 import json
+import uuid
 import requests
 from util import http_response
 from util import tempalte

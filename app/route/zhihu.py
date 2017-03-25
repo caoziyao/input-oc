@@ -1,5 +1,5 @@
 from . import *
-
+from .login import session, User, curr_user, login_required
 
 def route_static(request):
     """
@@ -12,8 +12,13 @@ def route_static(request):
         return http_response(content)
 
 
+@login_required
 def index(request):
-    username = request.Cookie.get('username', '')
+    user = curr_user(request)
+    if user:
+        username = user.username
+    else:
+        username = '游客'
     body = tempalte('index.html', username=username)
     return http_response(body)
 

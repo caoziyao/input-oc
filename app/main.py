@@ -7,7 +7,7 @@ from models.request import Request
 from route.todo import route_todo
 from route.zhihu import route_zhihu, route_static
 from route.api.weather import route_api
-from route.ajax import route_ajax
+from route.login import route_ajax
 
 port = 8081
 host = ''  # '' 代表接收任意 ip
