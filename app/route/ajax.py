@@ -1,6 +1,8 @@
 
 from . import *
 
+session = {}
+
 def login(request):
     """ ajax 登录"""
     # headers = {'Content-Type', 'application/json'}
@@ -20,13 +22,17 @@ def login(request):
         upasswd = res.get('password', '')
         if password != upasswd:
             raise Assistant(msg='密码错误')
-            # return redirect('/zhihu')
+            return redirect('/zhihu/login')
         r = {
             'status': 1,
             'msg': 'welcome 登录成功!'
         }
+        session['session_id'] = username
+        headers = {
+            'Set-Cookie': 'username={}'.format(username)
+        }
         body = json.dumps(r)
-        return http_response(body)
+        return http_response(body, headers)
     except Assistant as e:
         body = json.dumps(e.__dict__)
         return http_response(body)
@@ -77,6 +83,6 @@ def register(request):
 
 
 route_ajax = {
-    '/ajax/login': login,
-    '/ajax/register': register,
+    '/ajaxlogin': login,
+    '/ajaxregister': register,
 }

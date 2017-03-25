@@ -95,7 +95,11 @@ def parsed_request(r):
     headers = r.split('\r\n\r\n', 1)[0].split('\r\n')[1:]
     request.body = r.split('\r\n\r\n', 1)[1]
     request.headers = parsed_headers(headers)
+    # 解析出 cookie
+    request.add_cookies()
+    # log(request.__dict__)
 
+    # /static?file=zhihu.js&author=gua
     request.path, request.query = parsed_url(request.url)
 
     # log('request 请求:\r\n{}'.format(r))

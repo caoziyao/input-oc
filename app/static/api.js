@@ -37,12 +37,12 @@ var apiZhihuSearch = function(callback) {
 
 // login API
 var apiLogin = function (data, callback) {
-    var path = '/ajax/login';
+    var path = '/ajaxlogin';
     ajax('POST', path, data, callback)
 };
 
 // login API
 var apiRegister = function (data, callback) {
-    var path = '/ajax/register';
+    var path = '/ajaxregister';
     ajax('POST', path, data, callback)
 };

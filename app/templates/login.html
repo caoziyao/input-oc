@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>login</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}登录{% endblock %}
+
+{% block body %}
     <input id="id-login-username" placeholder="用户名">
     <input id="id-login-password" placeholder="密码">
     <button id="id-btn-login">登录</button>
 
     <br>
+
     <input id="id-reg-username" placeholder="用户名">
     <input id="id-reg-password" placeholder="密码">
     <button id="id-btn-register">注册</button>
-</body>
 
-    <script src="/static?file=base.js"></script>
-    <script src="/static?file=api.js"></script>
     <script>
         var btnLogin = e('#id-btn-login');
         var btnRegister = e('#id-btn-register')
@@ -27,7 +23,6 @@
 
             // 回调函数
             var callback = function (d) {
-                log('response', d);
                 var response = JSON.parse(d);
                 log('callback', response);
                 if(response.status){
@@ -70,5 +65,4 @@
             apiRegister(data, callback);
         })
     </script>
-
-</html>
+{% endblock %}

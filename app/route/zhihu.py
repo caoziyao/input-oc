@@ -13,7 +13,8 @@ def route_static(request):
 
 
 def index(request):
-    body = tempalte('index.html')
+    username = request.Cookie.get('username', '')
+    body = tempalte('index.html', username=username)
     return http_response(body)
 
 

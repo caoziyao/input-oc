@@ -13,9 +13,20 @@ class Request():
         self.body = ''
         self.path = ''      # /static
         self.query = {}     # {file: zhihu.js}
+        self.Cookie = {}    # Cookie:username=xxx
 
-
-
+    def add_cookies(self):
+        """
+        解析出 cookie
+        :param headersDict:
+        :return:
+        """
+        cookies = self.headers.get('Cookie', '')
+        kvs = cookies.split('; ')
+        for kv in kvs:
+            if '=' in kv:
+                k, v = kv.split('=')
+                self.Cookie[k] = v
 
 
 
