@@ -46,14 +46,31 @@ def tempalte(path, **kwargs):
     return t.render(**kwargs)
 
 
-def http_response(body, headers=None):
+def http_response(body, headers=None, code=200):
     """
     headers 是可选的字典格式的 HTTP 头
     """
-    header = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n'
+    header = 'HTTP/1.1 {} OK\r\nContent-Type: text/html\r\n'.format(code)
+    if headers is not None:
+        header += ''.join(['{}: {}\r\n'.format(k, v)
+                            for k, v in headers.items()])
     return header + '\r\n' + body
 
 
 def error(code=404):
     body = tempalte('404.html')
     return http_response(body)
+
+
+
+def redirect(location):
+    """
+    重定向
+    :param url:
+    :return:
+    """
+    headers = {
+        'Location': location
+    }
+    body = '{}'
+    return http_response(body, headers=headers, code=302)

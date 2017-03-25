@@ -17,6 +17,7 @@ var ajax = function (method, path, data, responseCallback) {
     // 注册响应函数
     r.onreadystatechange = function() {
         if(r.readyState === 4) {
+            // log('r', r);
             // r.response 存的就是服务器发过来的放在 HTTP BODY 中的数据
             responseCallback(r.response)
         }

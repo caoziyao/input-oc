@@ -4,6 +4,9 @@ db.ini
 .idea/BBQ.iml
 */.idea/workspace.xml
 log/
+log/*
+*/log/*
+app/log/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

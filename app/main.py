@@ -7,6 +7,7 @@ from models.request import Request
 from route.todo import route_todo
 from route.zhihu import route_zhihu, route_static
 from route.api.weather import route_api
+from route.ajax import route_ajax
 
 port = 8081
 host = ''  # '' 代表接收任意 ip
@@ -44,6 +45,7 @@ def response_for_path(path, request):
     r.update(route_todo)
     r.update(route_api)
     r.update(route_zhihu)
+    r.update(route_ajax)
     """
     根据 path 调用相应的处理函数
     没有处理的 path 会返回 404

@@ -27,12 +27,14 @@
 
             // 回调函数
             var callback = function (d) {
-                data = JSON.parse(d);
-                log('callback', data)
-                if(data.status){
+                log('response', d);
+                var response = JSON.parse(d);
+                log('callback', response);
+                if(response.status){
                     alert('登录成功')
+                    window.location.href = '/zhihu'
                 }else{
-                    alert('登录失败 ' + data.message)
+                    alert('登录失败 ' + response.message)
                 }
             };
 
@@ -50,12 +52,13 @@
 
             // 回调函数
             var callback = function (d) {
-                data = JSON.parse(d);
-                log('callback', data)
-                if(data.status){
+
+                var response = JSON.parse(d);
+                log('callback', response)
+                if(response.status){
                     alert('注册成功')
                 }else{
-                    alert('注册失败 ' + data.message)
+                    alert('注册失败 ' + response.message)
                 }
             };
 
