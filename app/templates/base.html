@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}base{% endblock %}</title>
-    {% block script %}
+    {% block css %}{% endblock %}
+
         <script src="/static?file=base.js"></script>
         <script src="/static?file=api.js"></script>
+    {% block script %}
     {% endblock %}
 </head>
 <body>
