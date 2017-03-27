@@ -157,14 +157,14 @@
                 // tab click
                 $('.zh-tab > a').on('click', function () {
                     var self = $(this);
-                    console.log('click a')
+//                    console.log('click a')
                     $('.active').removeClass('active');
                     self.addClass('active');
                 });
 
                 // tab action
                 var tabAction = function (position, showLogin) {
-                    console.log(position);
+//                    console.log(position);
                     $(".zh-block").animate({
                         "left": position
                     }, "fast");
@@ -195,7 +195,7 @@
                     // 回调函数
                     var callback = function (d) {
                         var response = JSON.parse(d);
-                        log('callback', response);
+//                        log('callback', response);
                         if(response.status){
                             alert('登录成功')
                             window.location.href = '/zhihu'
