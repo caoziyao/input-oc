@@ -12,7 +12,7 @@ def route_static(request):
         return http_response(content)
 
 
-@login_required
+# @login_required
 def index(request):
     user = curr_user(request)
     if user:

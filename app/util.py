@@ -50,7 +50,7 @@ def http_response(body, headers=None, code=200):
     """
     headers 是可选的字典格式的 HTTP 头
     """
-    header = 'HTTP/1.1 {} OK\r\nContent-Type: text/html\r\n'.format(code)
+    header = 'HTTP/1.1 {} OK\r\nContent-Type: text/html; text/css; charset=UTF-8\r\n'.format(code)
     if headers is not None:
         header += ''.join(['{}: {}\r\n'.format(k, v)
                             for k, v in headers.items()])

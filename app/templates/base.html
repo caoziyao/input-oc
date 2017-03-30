@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}base{% endblock %}</title>
-    {% block css %}{% endblock %}
+
 
         <script src="/static?file=base.js"></script>
         <script src="/static?file=api.js"></script>
@@ -11,6 +11,8 @@
     {% endblock %}
 </head>
 <body>
+{% block css %}{% endblock %}
+
     {% block body %}
     {% endblock %}
 </body>
