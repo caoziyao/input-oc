@@ -1,71 +1,10 @@
-{% extends 'base.html' %}
-
-{% block css %}
-    <link href="/static?file=index.css" rel="stylesheet"/>
-{% endblock %}
-
-
-
-{% block body %}
-<style>
-    *{
-        padding:0px;
-        margin:0px;
-    }
-
-    #header div{
-        display: inline-block;
-    }
-
-    .nav li{
-        display: inline-block;
-    }
-
-    #header div  p{
-        background-color: aquamarine;
-        display: inline-block;
-    }
-
-</style>
-    <div id="header">
-        <div>
-            <a href="/">知乎</a>
-            <div>
-                <input placeholder="搜索你想要的">
-                <button>search</button>
-            </div>
-
-            <div>
-                <ul class="nav">
-                    <li>首页</li>
-                    <li>话题</li>
-                    <li>发现</li>
-                    <li>消息</li>
-                </ul>
-            </div>
-
-            <button>提问</button>
-
-            <!--<img src="">-->
-            <p>cczy</p>
-
-        </div>
-    </div>
-
-
-    <div id="main">
-
-    </div>
-
-    <div id="footer">
-
-    </div>
-
-{% block script %}
-    <script src="/static?file=base.js"></script>
-    <script src="/static?file=base.js"></script>
-    <script src="/static?file=api.js"></script>
-    <!--<script src="/static?file=zhihu.js"></script>-->
-{% endblock %}
-
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+    {{ name }}
+</body>
+</html>
