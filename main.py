@@ -10,8 +10,6 @@ app.static_folder = staticFolder
 app.template_folder = templateFolder
 
 
-
-
 def main():
     config = {
         'host': '0.0.0.0',

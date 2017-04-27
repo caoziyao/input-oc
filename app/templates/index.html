@@ -3,8 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>index</title>
+    <link rel="stylesheet" href="../static/css/index.css">
+    <script type="text/javascript" src="../static/js/lib/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="../static/js/index.js"></script>
 </head>
 <body>
-    {{ name }}
+   <div class="body-main">
+     <div class="left-menu">
+        <div class="left-menu__section-bar">
+            <p class="section-bar__tags">Tags</p>
+            <button id="btnAddTags" class="section-bar__add">+</button>
+        </div>
+        <div class="left-menu__tag">
+            <ul>
+                <li class="left-menu__li">All <p >3</p></li>
+                <li class="left-menu__li">All <p >3</p></li>
+                <li class="left-menu__li">All <p >3</p></li>
+                <li class="left-menu__li">All <p >3</p></li>
+                <li class="left-menu__li">All <p >3</p></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="min-menu">
+        <div class="min-menu__section-bar">
+            <p class="min-menu__notes">All notes</p>
+            <button class="min-menu__add">+</button>
+        </div>
+        <div class="min-menu__search">
+            <input placeholder="Search"/>
+        </div>
+
+        <p class="min-menu__sort">
+            <select>
+                 <option>1-1</option>
+                 <option>1-2</option>
+            </select></p>
+        <div class="min-menu__note">
+            <ul class="min-menu__title">
+                <li>new note2</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="right-menu">
+        <div class="right-menu__head">
+            <p class="right-menu__title">title</p>
+            <p class="right-menu__subhead"></p>
+        </div>
+        <div class="right-menu__toolbar">
+
+        </div>
+
+        <div class="right-menu__content">
+            <textarea class="right-menu__view"></textarea>
+        </div>
+    </div>
+   </div>
 </body>
 </html>
