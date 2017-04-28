@@ -1,5 +1,6 @@
 
 *{margin: 0px; padding: 0px;}
+a {text-decoration: none;cursor: pointer;}
 ul li{list-style:none;}
 
 body{
@@ -9,14 +10,25 @@ body{
     display: flex;
 }
 
+.btn{
+    background-color: #e9e9e9;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+}
+
+.btn:hover{
+    background-color: #d7d7d7
+}
+
 .left-menu{
     background-color: #f6f6f6;
-    width: 15%;
+    width: 20%;
     border-right: 1px solid #dddddd;
     height: 860px;
 }
     .left-menu__section-bar{
-        padding-top: 20px;
+        padding-top: 25px;
         padding-bottom: 20px;
         display: flex;
         justify-content: space-between;
@@ -27,19 +39,70 @@ body{
     .section-bar__add{
         margin-right: 20px;
         width: 40px;
+
+    }
+    /*.section-bar__add:hover{*/
+        /*!*background-color: #d7d7d7*!*/
+    /*}*/
+
+    .section-bar__add:hover{
+        cursor: pointer;
     }
 
     .left-menu__tag{
-        background-color: #dbdbdb;
+        /*background-color: #dbdbdb;*/
+        cursor: pointer;
     }
 
     .left-menu__li{
-        margin-left: 20px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
         display: flex;
         justify-content: space-between;
+        font-size: 14px;
     }
-    .left-menu__li p{
-        margin-right: 40px;
+
+    .left-menu__li:hover{
+        background-color: #dbdbdb;
+        cursor: pointer;
+    }
+
+    .left-menu__li__text{
+        margin-right: 5px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+    }
+    .left-menu__li__text a{
+        margin-right: 2px;
+    }
+
+    .left-menu__li--active{
+        background-color: #dbdbdb;
+    }
+
+
+    .left-menu__input{
+         /*width: 80%;*/
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #e9e9e9;
+        height: 38px;
+        margin: 0 auto;
+        border-radius: 10px;
+        margin-bottom: 5px;
+    }
+    .left-menu__input input{
+        width: 95%;
+        height: 25px;
+        background-color: #e9e9e9;
+        border: 0px;
+        /*border-top:0px ;*/
+        /*border-left:0px ;*/
+        /*border-right:0px ;*/
+        outline:none;
     }
 
 .min-menu{
@@ -63,6 +126,9 @@ body{
         margin-right: 20px;
         width: 40px;
     }
+    .min-menu__add:hover{
+        cursor: pointer;
+    }
 
     .min-menu__search{
         width: 80%;
@@ -80,9 +146,10 @@ body{
         width: 95%;
         height: 25px;
         background-color: #e9e9e9;
-        border-top:0px ;
-        border-left:0px ;
-        border-right:0px ;
+        border: 0px;
+        /*border-top:0px ;*/
+        /*border-left:0px ;*/
+        /*border-right:0px ;*/
         outline:none;
 
     }
@@ -97,29 +164,76 @@ body{
 
     .min-menu__note{
         padding-top: 10px;
-        padding-left: 10px;
+        /*padding-left: 10px;*/
         padding-bottom: 20px;
+    }
+    
+    .min-menu__note:hover{
+        cursor: pointer;
+    }
+
+    .min-menu__title{
+
+    }
+
+    .min-menu__title li:hover{
+        background-color: #dbdbdb;
+    }
+
+    .min-menu__title li{
+        padding-left: 10px;
+        display: flex;
+        justify-content: space-between;
+        padding-top: 10px;
+        padding-bottom: 10px;
         border-bottom: 1px solid #e3e3e3;
     }
+
+    .min-menu__li__text{
+        margin-right: 5px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+    }
+    .min-menu__li__text a{
+        margin-right: 2px;
+    }
+
+    .min-menu__li--active{
+        background-color: #dbdbdb;
+    }
+
 
 
 .right-menu{
     background-color: #ffffff;
-    width: 55%;
+    width: 50%;
     border-right: 1px solid #dddddd;
     height: 860px;
 }
     .right-menu__head{
-
+        display: flex;
     }
     .right-menu__head .right-menu__title{
         font-size: 18px;
         margin-left: 24px;
         margin-top: 16px;
+        font-weight: bold;
+    }
+
+    .right-menu__save{
+        margin-right: 20px;
+        margin-top: 20px;
+        margin-left: 20px;
+        width: 50px;
+        cursor: pointer;
     }
 
     .right-menu__view{
-        height: 800px;
+        margin-top: 20px;
+        height: 780px;
         width: 98%;
+        /*border-left: 0;*/
         outline:none;
+        font-size: 16px;
     }

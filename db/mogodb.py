@@ -5,7 +5,7 @@ from pymongo import MongoClient
 
 host = 'localhost'
 port = 27017
-dbname = 'TaskWork'
+dbname = 'WebNote'
 
 # 连接 mongo 数据库, 主机是本机, 端口是默认的端口
 # 也可以 MongoClient('mongodb://localhost:27017/')
@@ -55,14 +55,15 @@ class Mainpulation:
             print('selectone error', e)
             return None
 
-    def findquery(self, query):
+    def findquery(self, query, projection=None):
         """
 
         :param query:
         :return:
         """
         try:
-            return self.collection.find(query)
+            print(query, projection)
+            return self.collection.find(query, projection=None)
         except Exception as e:
             print('selectone error', e)
             return None
@@ -126,4 +127,7 @@ class Mainpulation:
             print('selectall error', e)
             return None
 
-dbuser = Mainpulation('todo')
+dbtags = Mainpulation('tags')
+dbnotes = Mainpulation('notes')
+dbcontent = Mainpulation('content')
+dbsequence = Mainpulation('sequence')

@@ -12,24 +12,34 @@
      <div class="left-menu">
         <div class="left-menu__section-bar">
             <p class="section-bar__tags">Tags</p>
-            <button id="btnAddTags" class="section-bar__add">+</button>
+            <button id="btnAddTags" class="section-bar__add btn">+</button>
         </div>
+         <div class="left-menu__input">
+             <input placeholder="请输入Tags"/>
+         </div>
         <div class="left-menu__tag">
             <ul>
-                <li class="left-menu__li">All <p >3</p></li>
-                <li class="left-menu__li">All <p >3</p></li>
-                <li class="left-menu__li">All <p >3</p></li>
-                <li class="left-menu__li">All <p >3</p></li>
-                <li class="left-menu__li">All <p >3</p></li>
+                <li class="left-menu__li all">All
+                    <!--<div class="left-menu__li__text">-->
+                        <!--<a href="#">update</a><a href="#">delete</a>-->
+                    <!--</div>-->
+                </li>
+
+                {% for tag in tags %}
+                    <li class="left-menu__li" data-id="{{ tag.tagId }}">{{ tag.content }}
+                        <div class="left-menu__li__text">
+                            <a href="#">update</a><a href="#">delete</a>
+                        </div>
+                    </li>
+                {% endfor %}
             </ul>
         </div>
-
     </div>
 
     <div class="min-menu">
         <div class="min-menu__section-bar">
-            <p class="min-menu__notes">All notes</p>
-            <button class="min-menu__add">+</button>
+            <p class="min-menu__notes ">All notes</p>
+            <button id="btnAddNote" class="min-menu__add btn">+</button>
         </div>
         <div class="min-menu__search">
             <input placeholder="Search"/>
@@ -42,7 +52,21 @@
             </select></p>
         <div class="min-menu__note">
             <ul class="min-menu__title">
-                <li>new note2</li>
+                <li class="min-menu__li all"><a href="#">All</a>
+                    <div class="min-menu__li__text">
+                        <a href="#">update</a><a href="#">delete</a>
+                    </div>
+                </li>
+
+                {% for note in notes %}
+                     <li class="min-menu__li" tag-id="{{ note.tagId }}"   note-id="{{ note.noteId }}">
+                         <a class="min-menu__li_title" href="#">{{ note.content }}</a>
+                        <div class="min-menu__li__text">
+                            <a href="#">update</a><a href="#">delete</a>
+                        </div>
+                    </li>
+                {% endfor %}
+
             </ul>
         </div>
     </div>
@@ -51,6 +75,7 @@
         <div class="right-menu__head">
             <p class="right-menu__title">title</p>
             <p class="right-menu__subhead"></p>
+            <button id="btnSave" class="right-menu__save btn">save</button>
         </div>
         <div class="right-menu__toolbar">
 
