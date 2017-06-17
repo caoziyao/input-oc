@@ -2,9 +2,9 @@
  * Created by working on 2017/4/27.
  */
 
-var _main = function () {
-
-    // left-menu 按钮
+// 添加 tag
+var btnAddTagsEvent = function () {
+     // left-menu 按钮
     $('#btnAddTags').click(function () {
         var obj = $(this);
         var val = $('.left-menu__input input').val();
@@ -45,8 +45,11 @@ var _main = function () {
         });
 
     });
+}
 
-    // 激活 tags
+// 激活 tags
+var activeTagsEvent = function () {
+     // 激活 tags
     $('.left-menu__tag').delegate('.left-menu__li', 'click',function () {
         var obj = $(this);
         var siblings = obj.siblings();
@@ -106,8 +109,10 @@ var _main = function () {
 
 
     })
+}
 
-
+// 添加 note
+var btnAddNoteEvent = function () {
     // min-menu add
     $('#btnAddNote').click(function () {
         var obj = $(this);
@@ -155,7 +160,10 @@ var _main = function () {
 
 
     })
+}
 
+// 激活 note
+var activeNoteEvent = function () {
     // 激活 note
     $('.min-menu__note').delegate('.min-menu__li', 'click',function () {
         var obj = $(this);
@@ -198,8 +206,9 @@ var _main = function () {
         });
 
     })
+}
 
-
+var btnSaveEvent = function () {
     // 保存按钮
     $('#btnSave').click(function () {
         var obj = $(this);
@@ -241,7 +250,20 @@ var _main = function () {
             }
         });
     })
+}
 
+var _main = function () {
+
+    // 添加 tag
+    btnAddTagsEvent()
+    // 激活 tags
+    activeTagsEvent()
+    // 添加 note
+    btnAddNoteEvent()
+    // 激活 note
+    activeNoteEvent()
+    // 保存
+    btnSaveEvent()
 
 }
 

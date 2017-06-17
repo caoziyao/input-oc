@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from flask import render_template, Blueprint
-from db.mogodb import dbtags, dbnotes
+from app.db.mogodb import dbtags, dbnotes
 
 mod = Blueprint('index', __name__)
 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+</head>
+<body>
+    <h1>TODO</h1>
+    <div>
+        看起来您还没有登录 todo，请在下面的输入框中输入密钥，或者点 <a href="#" id="id-a-generate-code">这里</a> 生成一个新的登录密钥
+    </div>
+
+    <div id="id-alert-message">
+
+    </div>
+
+    <form action="/user/login" method="post" >
+        <input placeholder="username" name="username">
+        <button type="submit">登录</button>
+    </form>
+
+    <script>
+
+
+        var bindListener = function () {
+            var aLink = e('#id-a-generate-code')
+            log('alink', aLink)
+            aLink.addEventListener('click', function () {
+                var request = {
+                    method: 'post',
+                    url: '/user/generate_code',
+                    data: JSON.stringify({code: 'abcde'}),
+                    callback: function (response) {
+                        log('ok', response)
+                        var message = e('#id-alert-message')
+                        var html = `<p>${response}</p>`
+                        message.insertAdjacentHTML('beforebegin', html)
+                    },
+                };
+                ajax(request)
+            })
+        };
+
+        var __main = function () {
+            bindListener()
+        }
+
+        __main()
+    </script>
+</body>
+</html>

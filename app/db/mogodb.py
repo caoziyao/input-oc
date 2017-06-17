@@ -1,3 +1,5 @@
+# coding: utf-8
+
 # 启动 mongod --config /usr/local/etc/mongod.conf
 import os
 from pymongo import MongoClient

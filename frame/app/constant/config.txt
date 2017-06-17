@@ -1,7 +1,0 @@
-{
-  "mongodb": {
-    "dataurl": "localhost",
-    "dataport": 27017,
-    "dataname": "ChatRoom"
-  }
-}

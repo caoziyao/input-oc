@@ -2,7 +2,7 @@
 
 import json
 from flask import Blueprint, request
-from db.mogodb import dbtags, dbsequence, dbnotes, dbcontent
+from app.db.mogodb import dbtags, dbsequence, dbnotes, dbcontent
 mod = Blueprint('ajax', __name__)
 
 @mod.route('/add/tag', methods=['POST'])
