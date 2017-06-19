@@ -12,7 +12,6 @@
     </div>
 
     <div id="id-alert-message">
-
     </div>
 
     <form action="/user/login" method="post" >
@@ -21,31 +20,104 @@
     </form>
 
     <script>
+        // 更换验证码
+        function changeSrcCode(obj){
+            var request = {
+                method: 'get',
+                url: '/user/verifcode',
+                callback: function (response) {
+                   obj.src=randomUrl("/static/img/idencode.png?r=");
+                },
+            };
+            ajax(request)
 
+        }
+        // 每次返回URL不一样
+        function randomUrl(url){
+            if(url.indexOf("?") > -1){
+                url = url + "&rt=" + new Date().getTime();
+            }else{
+                url = url + "?rt=" + new Date().getTime();
+            }
+            return url;
+        }
 
-        var bindListener = function () {
+        // 生成校验码
+        var bindVerifCodeListener = function () {
             var aLink = e('#id-a-generate-code')
-            log('alink', aLink)
             aLink.addEventListener('click', function () {
                 var request = {
-                    method: 'post',
-                    url: '/user/generate_code',
-                    data: JSON.stringify({code: 'abcde'}),
+                    method: 'get',
+                    url: '/user/verifcode',
                     callback: function (response) {
+                        var response = JSON.parse(response)
                         log('ok', response)
                         var message = e('#id-alert-message')
-                        var html = `<p>${response}</p>`
+                        var html = `
+                            <img src="/static/img/idencode.png" onclick="changeSrcCode(this);">
+                            <div id="id-verifycode">
+                                <input class="verifycode-input" placeholder="请输入校验码" name="verifycode">
+                                <button class="verifycode-button" type="submit">校验码</button>
+                            </div>
+                        `
                         message.insertAdjacentHTML('beforebegin', html)
+                        bindCheckVerifyCodeListener()
                     },
                 };
                 ajax(request)
             })
+        }
+
+        // 生成特征值
+        var generateToken = function () {
+            var request = {
+                method: 'post',
+                url: '/user/randomcode',
+                data: '',
+                callback: function (response) {
+                    var response = JSON.parse(response)
+                    log('ok', response)
+                    var message = e('#id-alert-message')
+                    var html = `<p>${response}</p>`
+                    message.insertAdjacentHTML('beforebegin', html)
+
+                },
+            };
+            ajax(request)
+        }
+
+        // 校验码检查
+        var bindCheckVerifyCodeListener = function () {
+            var verifyBtn = e('.verifycode-button')
+            verifyBtn.addEventListener('click', function () {
+                var input = e('.verifycode-input').value
+                var request = {
+                    method: 'post',
+                    url: '/user/check/verifycode',
+                    data: JSON.stringify({data: input}),
+                    callback: function (response) {
+                        var response = JSON.parse(response)
+                        log('check result', response)
+                        var result = response.result
+                        if (result == 1) {
+                            generateToken()
+                        }
+
+                    },
+                };
+                ajax(request)
+            })
+        }
+
+
+        var bindListener = function () {
+            bindVerifCodeListener();
         };
 
         var __main = function () {
-            bindListener()
+            bindListener();
         }
-
+        //
         __main()
     </script>
 </body>

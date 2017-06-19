@@ -1,0 +1,6 @@
+# coding: utf-8
+
+
+CREATE_STATUS = 0
+FINISHED_STATUS = 1
+DELAY_STATUS = 2

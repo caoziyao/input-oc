@@ -41,7 +41,6 @@ var ajax = function(request) {
     if (request.method === 'GET') {
         r.send()
     } else {
-        console.log('requestdata', request.data)
         r.send(request.data)
     }
 }

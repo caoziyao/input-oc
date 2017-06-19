@@ -1,12 +1,16 @@
 # coding:utf-8
 #!/user/bin/python
 
-from flask import render_template, Blueprint, request, redirect
-from flask_login import AnonymousUserMixin, LoginManager, UserMixin, login_required, current_user, login_user
-from flask_login import logout_user
 import hashlib
 import json
+import random
+import uuid
+from flask import render_template, Blueprint, request, redirect, session
+from flask_login import AnonymousUserMixin, LoginManager, UserMixin, login_required, current_user, login_user
+from flask_login import logout_user
 from app.share.util import md5, sh1hexdigest
+from app.share.verifcode import gene_code
+
 
 mod = Blueprint('user', __name__)
 
@@ -46,17 +50,14 @@ class User(UserMixin):
 
 
 
-@mod.route('/generate_code', methods=['POST'])
-def  generate_code():
+@mod.route('/randomcode', methods=['POST'])
+def  randomcode():
     """
 
     :return:
     """
-    data = request.data
-    c = json.loads(data)
-    pwd = c.get('code', '')
-
-    r = sh1hexdigest(pwd)
+    pwd = uuid.uuid1()
+    r = sh1hexdigest(str(pwd))
 
     return json.dumps(r)
 
@@ -73,11 +74,43 @@ def login():
         u = User(username)
         login_user(u)
 
-
         return redirect('/todo')
 
 
-@mod.route('/logout')
+@mod.route('/logout', methods=['GET'])
 def logout():
     logout_user()
     return redirect(current_user.loginurl)
+
+
+@mod.route('/verifcode', methods=['GET'])
+def verifcode():
+    code = gene_code()
+    r = {
+        'code': code,
+    }
+    session['verifycode'] = code  # 把验证码保存于session内,使用后需要del掉
+    print('code', code)
+    return json.dumps(r)
+
+
+
+@mod.route('/check/verifycode', methods=['POST'])
+def check_verifcode():
+    data = json.loads(request.data)
+    code = data.get('data')
+    lower = session['verifycode'].lower()
+
+    upper = session['verifycode'].upper()
+    if code == lower or code == upper or code == session['verifycode']:
+        r = {'result': 1, 'msg': '校验通过'}
+        # del session['verifycode']
+    else:
+        r = {'result': 0, 'msg': '校验失败'}
+
+
+    return json.dumps(r)
+
+
+
+
