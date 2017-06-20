@@ -6,59 +6,52 @@ import json
 import random
 import uuid
 from flask import render_template, Blueprint, request, redirect, session
-from flask_login import AnonymousUserMixin, LoginManager, UserMixin, login_required, current_user, login_user
+from flask_login import  current_user, login_user
 from flask_login import logout_user
-from app.share.util import md5, sh1hexdigest
+from app.share.util import  sh1hexdigest
 from app.share.verifcode import gene_code
+from app.models.user import User
 
+from app.db.mongodb import db
 
 mod = Blueprint('user', __name__)
 
-
-class Anonymous(AnonymousUserMixin):
-    def __init__(self):
-        self.username = 'Guest2'
-
-    @property
-    def id(self):
-        return 0
-
-    @property
-    def is_superuser(self):  # 超级用户
-        return False
-
-    @property
-    def loginurl(self):
-        urlrootpath = 'user/login'
-        return urlrootpath
+dbsession = db['session']
 
 
-class User(UserMixin):
-    """
-    用户类
-    """
-    def __init__(self, _id):
-        self.id = _id
+def upload_session():
+    r = list(dbsession.find({'username': 'abc'}))
+    session['user_id'] = r[0].get('sessionId', '')
+    session['userid'] = r[0].get('sessionId', '')
+    print(r)
 
-    # 必须实现
-    def get_id(self):
-        """
-        返回 id
-        :return:
-        """
-        return self.id  # unicode(uuid.uuid4())
 
+
+
+def save_session():
+
+    session_id = session['userid']
+    data = {
+        'username': 'abc',
+        'sessionId': session_id,
+    }
+    dbsession.insert(data)
+
+
+def drop_session(session_id):
+
+    dbsession.remove({'sessionId': session_id})
 
 
 @mod.route('/randomcode', methods=['POST'])
 def  randomcode():
     """
-
+    特征值用于登录系统
     :return:
     """
     pwd = uuid.uuid1()
     r = sh1hexdigest(str(pwd))
-
+    session['userid'] = r   # 记住登录id
     return json.dumps(r)
 
 
@@ -66,19 +59,29 @@ def  randomcode():
 def login():
     method = request.method
     if method == 'GET':
+        upload_session()
         u = current_user
         print('u', u)
+        a = session
         return render_template('login.html')
     elif method == 'POST':
-        username = request.form.get('username', '')
-        u = User(username)
-        login_user(u)
+        userid = request.form.get('username', '')
+        u = User(userid)
+        if userid == session['userid']:
+            login_user(u, True)
 
-        return redirect('/todo')
+            save_session()
+            return redirect('/todo')
+        else:
+            return redirect('.')
+
+
 
 
 @mod.route('/logout', methods=['GET'])
 def logout():
+    session_id = session['userid']
+    drop_session(session_id)
     logout_user()
     return redirect(current_user.loginurl)
 

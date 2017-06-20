@@ -2,11 +2,16 @@
 #!/user/bin/python
 
 import os
-from flask import Flask, render_template, Blueprint, redirect
+from datetime import timedelta
+from flask import Flask, render_template, Blueprint, redirect, session
 from flask_login import LoginManager, UserMixin, login_required, current_user, login_user
 from config.constants import staticFolder, templateFolder
 from app.myapp import register_blue
-from app.route.user import User, Anonymous
+from app.models.user import User, Anonymous
+from pymongo import MongoClient
+from app.db.mongodb import db
+dbsession = db['session']
+
 
 app = Flask(__name__)
 app.static_folder = staticFolder
@@ -18,13 +23,19 @@ login_manager = LoginManager()
 login_manager.init_app(app=app)
 login_manager.anonymous_user = Anonymous
 
+
+
+
+
 @app.before_request
 def before_request():
     """
     请求 url 前判断是否登录
     :return:
     """
-    pass
+    # 设置sessin的有效时间
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=100)
 
 # @login_manager.unauthorized_handler  # 自定义未登录跳转
 # def unauthorized():
@@ -40,6 +51,8 @@ def before_request():
 def load_user(_id):
     u = User(_id)
     return u
+
+
 
 
 def main():

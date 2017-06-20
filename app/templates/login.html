@@ -14,10 +14,6 @@
     <div id="id-alert-message">
     </div>
 
-    <form action="/user/login" method="post" >
-        <input placeholder="username" name="username">
-        <button type="submit">登录</button>
-    </form>
 
     <script>
         // 更换验证码
@@ -78,7 +74,13 @@
                     var response = JSON.parse(response)
                     log('ok', response)
                     var message = e('#id-alert-message')
-                    var html = `<p>${response}</p>`
+                    var html = `<p>${response}</p>
+                        <form action="/user/login" method="post" >
+                            <input placeholder="username" name="username">
+                            <button type="submit">登录</button>
+                        </form>
+
+                    `
                     message.insertAdjacentHTML('beforebegin', html)
 
                 },

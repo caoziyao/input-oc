@@ -3,7 +3,8 @@
 
 from flask import render_template, Blueprint, current_app, redirect
 from flask_login import current_user
-from app.db.mogodb import dbtags, dbnotes
+
+
 mod = Blueprint('todo', __name__)
 
 @mod.before_request

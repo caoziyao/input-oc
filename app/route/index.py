@@ -2,9 +2,15 @@
 
 from flask import render_template, Blueprint, redirect
 from flask_login import current_user
-from app.db.mogodb import dbtags, dbnotes
+from app.db.mongodb import db
+
+
+dbtags = db['tags']
+dbnotes = db['notes']
+
 
 mod = Blueprint('index', __name__)
+
 
 @mod.before_request
 def before_request():
@@ -15,6 +21,6 @@ def before_request():
 
 @mod.route('/')
 def index():
-    tags = list(dbtags.findall())
-    notes = list(dbnotes.findall())
+    tags = list(dbtags.find())
+    notes = list(dbnotes.find())
     return render_template('index.html', tags=tags, notes=notes)
