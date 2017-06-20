@@ -1,0 +1,60 @@
+# todo
+
+实现校验功能
+-页面校验请求
+x-- 页面元素事件绑定
+x--- 请求1登录请求
+x--- 请求2生成校验码请求
+x-- 绑定校验码请求
+x-- 绑定登录请求
+x-- 输入校验码正确后请求登录tooken
+x--- 返回校验吗
+x--- 后端判断校验吗正确与否
+
+x-刷新验证码
+x--请求验证码
+x--重新请求验证码图片
+x--后台数据处理并返回请求
+x--前端展示
+
+# todo 略，没有更好的方法
+x -- 设计 todo model
+-- mogodb model
+--- learnning mongomock
+-- 初始化 db
+-- 启用 db
+-- 链接 db
+
+x-- session 持久化
+x--- 输入 tooken 后登录
+x--- 后端保存 tooken，数据库
+
+
+-- todo 页面
+--- 参考一个例子
+http://koa-todo.herokuapp.com/
+https://github.com/koajs/todo
+
+---- 找到一个例子
+--- 写 html
+--- 写 css
+
+
+# todo redis
+-- redis 保存 session
+
+
+# todo
+# mongodb 异步
+# from motor.motor_asyncio import AsyncIOMotorClient
+# async
+
+
+
+
+
+
+
+
+
+

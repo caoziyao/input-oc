@@ -25,8 +25,6 @@ login_manager.anonymous_user = Anonymous
 
 
 
-
-
 @app.before_request
 def before_request():
     """
