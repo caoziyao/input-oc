@@ -3,7 +3,7 @@
 
 import os
 from datetime import timedelta
-from flask import Flask, render_template, Blueprint, redirect, session
+from flask import Flask, render_template, Blueprint, redirect, session, g
 from flask_login import LoginManager, UserMixin, login_required, current_user, login_user
 from config.constants import staticFolder, templateFolder
 from app.myapp import register_blue
@@ -24,6 +24,14 @@ login_manager.init_app(app=app)
 login_manager.anonymous_user = Anonymous
 
 
+# 从数据库加载 session
+def upload_session():
+    r = list(dbsession.find({'username': 'abc'}))
+    g.g_session = r[0].get('sessionId', '') if r else ''
+    if g.g_session:
+        session['user_id'] = g.g_session
+        session['userid'] = g.g_session
+
 
 @app.before_request
 def before_request():
@@ -31,9 +39,11 @@ def before_request():
     请求 url 前判断是否登录
     :return:
     """
+    upload_session()
     # 设置sessin的有效时间
     session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes=100)
+    app.permanent_session_lifetime = timedelta(minutes=500)
+
 
 # @login_manager.unauthorized_handler  # 自定义未登录跳转
 # def unauthorized():
@@ -56,7 +66,7 @@ def load_user(_id):
 def main():
     config = {
         'host': '0.0.0.0',
-        'port': 8001,
+        'port': 8002,
         'debug': True
     }
     register_blue(app)
@@ -64,4 +74,5 @@ def main():
 
 
 if __name__ == '__main__':
+
     main()

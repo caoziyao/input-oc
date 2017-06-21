@@ -5,7 +5,7 @@ import hashlib
 import json
 import random
 import uuid
-from flask import render_template, Blueprint, request, redirect, session
+from flask import render_template, Blueprint, request, redirect, session, g
 from flask_login import  current_user, login_user
 from flask_login import logout_user
 from app.share.util import  sh1hexdigest
@@ -18,12 +18,14 @@ mod = Blueprint('user', __name__)
 
 dbsession = db['session']
 
-
-def upload_session():
-    r = list(dbsession.find({'username': 'abc'}))
-    session['user_id'] = r[0].get('sessionId', '')
-    session['userid'] = r[0].get('sessionId', '')
-    print(r)
+#
+# def upload_session():
+#     r = list(dbsession.find({'username': 'abc'}))
+#     # session['user_id'] = r[0].get('sessionId', '')
+#     # session['userid'] = r[0].get('sessionId', '')
+#     g.g_session = r[0].get('sessionId', '')
+#
+#     # return redirect('/todo')
 
 
 
@@ -59,7 +61,7 @@ def  randomcode():
 def login():
     method = request.method
     if method == 'GET':
-        upload_session()
+        # upload_session()
         u = current_user
         print('u', u)
         a = session
