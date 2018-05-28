@@ -1,6 +1,2 @@
-# webnotes https://github.com/standardnotes/web
-
-
-
-
-
+# macIMKSample
+IMK Framework based Input method sample on macOS
