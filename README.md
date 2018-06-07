@@ -1,3 +1,3 @@
-# macIMKSample
-IMK Framework based Input method sample on macOS
+# input-oc
+IMK Framework based Input method  on macOS
 ![img](./pencil_new.gif)
